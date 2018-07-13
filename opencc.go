@@ -5,12 +5,13 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"github.com/liuzl/da"
 	"io/ioutil"
 	"path/filepath"
 	"reflect"
 	"runtime"
 	"strings"
+
+	"github.com/liuzl/da"
 )
 
 var (
@@ -42,6 +43,7 @@ type OpenCC struct {
 	Conversion  string
 	Description string
 	DictChains  []*Group
+	options     map[string]interface{}
 }
 
 var conversions = map[string]struct{}{
@@ -52,11 +54,18 @@ var conversions = map[string]struct{}{
 // New construct an instance of OpenCC.
 //
 // Supported conversions: s2t, t2s, s2tw, tw2s, s2hk, hk2s, s2twp, tw2sp, t2tw, t2hk
-func New(conversion string) (*OpenCC, error) {
+func New(conversion string, options map[string]interface{}) (*OpenCC, error) {
+	if _, has := options["path"]; !has {
+		options["path"] = *Dir
+	}
+
 	if _, has := conversions[conversion]; !has {
 		return nil, fmt.Errorf("%s not valid", conversion)
 	}
-	cc := &OpenCC{Conversion: conversion}
+	cc := &OpenCC{
+		Conversion: conversion,
+		options:    options,
+	}
 	err := cc.initDict()
 	if err != nil {
 		return nil, err
@@ -106,7 +115,7 @@ func (cc *OpenCC) initDict() error {
 	if cc.Conversion == "" {
 		return fmt.Errorf("conversion is not set")
 	}
-	configFile := filepath.Join(*Dir, configDir, cc.Conversion+".json")
+	configFile := filepath.Join(cc.options["path"].(string), configDir, cc.Conversion+".json")
 	body, err := ioutil.ReadFile(configFile)
 	if err != nil {
 		return err
@@ -186,7 +195,7 @@ func (cc *OpenCC) addDictChain(d map[string]interface{}) (*Group, error) {
 			if !has {
 				return nil, fmt.Errorf("no file field found")
 			}
-			daDict, err := da.BuildFromFile(filepath.Join(*Dir, dictDir, file.(string)))
+			daDict, err := da.BuildFromFile(filepath.Join(cc.options["path"].(string), dictDir, file.(string)))
 			if err != nil {
 				return nil, err
 			}

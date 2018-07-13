@@ -31,7 +31,7 @@ import (
 )
 
 func main() {
-    s2t, err := gocc.New("s2t")
+    s2t, err := gocc.New("s2t", make(map[string]interface{}))
     if err != nil {
         log.Fatal(err)
     }
