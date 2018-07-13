@@ -1,18 +1,28 @@
 # gocc - Golang version OpenCC
-[![GoDoc](https://godoc.org/github.com/liuzl/gocc?status.svg)](https://godoc.org/github.com/liuzl/gocc)[![Go Report Card](https://goreportcard.com/badge/github.com/liuzl/gocc)](https://goreportcard.com/report/github.com/liuzl/gocc)
+
+[![GoDoc](https://godoc.org/github.com/o-p/gocc?status.svg)](https://godoc.org/github.com/o-p/gocc)
+[![Go Report Card](https://goreportcard.com/badge/github.com/o-p/gocc)](https://goreportcard.com/report/github.com/o-p/gocc)
+
 ## Introduction 介紹
+
+This repo is fork from [liuzl/gocc](https://github.com/liuzl/gocc).
+
 gocc is a golang port of OpenCC([Open Chinese Convert 開放中文轉換](https://github.com/BYVoid/OpenCC/)) which is a project for conversion between Traditional and Simplified Chinese developed by [BYVoid](https://www.byvoid.com/).
 
 gocc stands for "**Go**lang version Open**CC**", it is a total rewrite version of OpenCC in Go. It just borrows the dict files and config files of OpenCC, so it may not produce the same output with the original OpenCC.
 
 ## Installation 安裝
+
 ### 1, golang package
+
 ```sh
-go get github.com/liuzl/gocc
+go get github.com/o-p/gocc
 ```
+
 ### 2, Command Line
+
 ```sh
-git clone https://github.com/liuzl/gocc
+git clone https://github.com/o-p/gocc
 cd gocc/cmd
 make install
 gocc --help
@@ -21,12 +31,13 @@ echo "我们是工农子弟兵" | gocc
 ```
 
 ## Usage 使用
+
 ```go
 package main
 
 import (
     "fmt"
-    "github.com/liuzl/gocc"
+    "github.com/o-p/gocc"
     "log"
 )
 
@@ -45,7 +56,9 @@ func main() {
     //自然語言處理是人工智能領域中的一個重要方向。
 }
 ```
+
 ## Conversions
+
 * `s2t` Simplified Chinese to Traditional Chinese
 * `t2s` Traditional Chinese to Simplified Chinese
 * `s2tw` Simplified Chinese to Traditional Chinese (Taiwan Standard)
