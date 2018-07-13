@@ -15,7 +15,9 @@ func TestConvert(t *testing.T) {
 	}
 
 	for k := range conversions {
-		s2t, err := New(k)
+		opt := make(map[string]interface{})
+		opt["path"] = "."
+		s2t, err := New(k, opt)
 		if err != nil {
 			t.Errorf("New %s error:%+v", k, err)
 		}
